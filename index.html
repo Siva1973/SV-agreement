@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subject-Verb Agreement Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f2f2f2;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .question {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    .options {
+      margin: 10px 0;
+    }
+    .options label {
+      display: block;
+      margin: 8px 0;
+    }
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .btn-next {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+    .btn-next:hover {
+      background-color: #45a049;
+    }
+    .result {
+      font-size: 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Subject-Verb Agreement Game</h1>
+    <p>Choose the correct verb that agrees with the subject in each sentence.</p>
+
+    <div id="quiz-container">
+      <div id="question" class="question"></div>
+      <div id="options" class="options"></div>
+      <button id="next-btn" class="btn btn-next">Next</button>
+    </div>
+
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "She _____ to the gym every morning.",
+        options: ["go", "goes", "gone"],
+        answer: "goes"
+      },
+      {
+        question: "The dogs _____ loudly at night.",
+        options: ["barks", "bark", "barked"],
+        answer: "bark"
+      },
+      {
+        question: "He _____ the piano very well.",
+        options: ["play", "plays", "playing"],
+        answer: "plays"
+      },
+      {
+        question: "They _____ ready for the trip.",
+        options: ["is", "are", "was"],
+        answer: "are"
+      },
+      {
+        question: "My mother _____ delicious food.",
+        options: ["cook", "cooks", "cooking"],
+        answer: "cooks"
+      },
+      {
+        question: "The child _____ a red ball.",
+        options: ["have", "has", "having"],
+        answer: "has"
+      },
+      {
+        question: "We _____ soccer on weekends.",
+        options: ["play", "plays", "played"],
+        answer: "play"
+      },
+      {
+        question: "It _____ heavily during the night.",
+        options: ["rains", "rain", "raining"],
+        answer: "rains"
+      },
+      {
+        question: "John and Mary _____ at school.",
+        options: ["is", "are", "was"],
+        answer: "are"
+      },
+      {
+        question: "The book _____ on the table.",
+        options: ["are", "is", "were"],
+        answer: "is"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const resultEl = document.getElementById("result");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      questionEl.textContent = `${index + 1}. ${q.question}`;
+      optionsEl.innerHTML = "";
+
+      q.options.forEach(option => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "option";
+        radio.value = option;
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option));
+        optionsEl.appendChild(label);
+      });
+    }
+
+    function showResult() {
+      document.getElementById("quiz-container").style.display = "none";
+      resultEl.style.display = "block";
+      resultEl.innerHTML = `<h2>Your score: ${score} / ${questions.length}</h2>`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      const selectedOption = document.querySelector('input[name="option"]:checked');
+      if (!selectedOption) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (selectedOption.value === questions[currentQuestion].answer) {
+        score++;
+      }
+
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    });
+
+    // Initialize
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
